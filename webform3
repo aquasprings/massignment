@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using accountDAL;
+
+namespace BankManagement
+{
+    public partial class WebForm3 : System.Web.UI.Page
+    {
+        Accountop db = new Accountop();
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Page.IsPostBack)
+            {
+                showData();
+            }
+
+        }
+
+        public void showData()
+        {
+            GridView1.DataSource = db.viewdata();
+            GridView1.DataBind();
+        }
+
+        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int id = Convert.ToInt32(e.CommandArgument);
+            int res=db.del(id);
+            if (res > 0)
+            {
+                showData();
+                Response.Write(" deleted"); 
+            }
+
+        }
+    }
+}
